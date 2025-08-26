@@ -1,0 +1,7 @@
+node_modules
+_build
+_site
+.cache
+.claude
+.DS_Store
+.playwright-mcp 

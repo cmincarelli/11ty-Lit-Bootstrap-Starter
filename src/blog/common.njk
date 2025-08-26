@@ -1,0 +1,118 @@
+
+  <!-- Blog Posts Grid -->
+  <section class="blog-posts mb-5">
+    {% if posts.length > 0 %}
+      <div class="row g-4">
+        {% for post in posts %}
+          <div class="col-lg-6 col-xl-4">
+            <article class="card blog-post-card h-100">
+              
+              <!-- Post Image/Header -->
+              <div class="post-image">
+                <!-- Placeholder for post image - could be enhanced with actual images -->
+              </div>
+              
+              <div class="card-body d-flex flex-column">
+                
+                <!-- Post Meta Information -->
+                <div class="post-meta">
+                  <div class="meta-item">
+                    <i class="bi bi-calendar3"></i>
+                    <span>{{ post.date | dateFilter }}</span>
+                  </div>
+                  <div class="meta-item">
+                    <i class="bi bi-person-fill"></i>
+                    <span>{{ post.data.author or "Admin" }}</span>
+                  </div>
+                </div>
+                
+                <!-- Post Title -->
+                <h3 class="post-title h5">
+                  <a href="{{ post.url }}" class="text-decoration-none text-dark">
+                    {{ post.data.title }}
+                  </a>
+                </h3>
+                
+                <!-- Post Tags -->
+                {% if post.data.tags %}
+                <div class="post-tags">
+                  {% for tag in post.data.tags %}
+                    <span class="tag">{{ tag }}</span>
+                  {% endfor %}
+                </div>
+                {% endif %}
+                
+                <!-- Post Excerpt -->
+                <div class="post-excerpt flex-grow-1">
+                  {% if post.data.description %}
+                    <p>{{ post.data.description }}</p>
+                  {% else %}
+                    <p>{{ post.content | excerpt }}</p>
+                  {% endif %}
+                </div>
+                
+                <!-- Read More Button -->
+                <div class="mt-auto">
+                  <a href="{{ post.url }}" class="btn read-more-btn w-100">
+                    <i class="bi bi-book-half me-2"></i>
+                    Continue Reading
+                  </a>
+                </div>
+                
+              </div>
+            </article>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <!-- Empty State -->
+      <div class="text-center py-5">
+        <div class="display-1 text-primary mb-3">📝</div>
+        <h3 class="text-dark mb-3">No Posts Yet</h3>
+        <p class="text-muted">
+          Content is coming soon. Check back later for fresh articles and insights!
+        </p>
+      </div>
+    {% endif %}
+  </section>
+
+  <!-- Pagination -->
+  {% if pagination.pages.length > 1 %}
+  <section class="blog-pagination mb-5">
+    <nav aria-label="Blog pagination">
+      <ul class="pagination justify-content-center">
+        
+        <!-- Previous Page -->
+        {% if pagination.previousPageHref %}
+          <li class="page-item">
+            <a class="page-link" href="{{ pagination.previousPageHref }}" aria-label="Previous">
+              <i class="bi bi-chevron-left"></i>
+              <span class="d-none d-sm-inline ms-1">Previous</span>
+            </a>
+          </li>
+        {% endif %}
+        
+        <!-- Page Numbers -->
+        {% for pageEntry in pagination.pages %}
+          <li class="page-item {% if page.url == pageEntry.url %}active{% endif %}">
+            <a class="page-link" href="{{ pageEntry.url }}">
+              {{ loop.index }}
+            </a>
+          </li>
+        {% endfor %}
+        
+        <!-- Next Page -->
+        {% if pagination.nextPageHref %}
+          <li class="page-item">
+            <a class="page-link" href="{{ pagination.nextPageHref }}" aria-label="Next">
+              <span class="d-none d-sm-inline me-1">Next</span>
+              <i class="bi bi-chevron-right"></i>
+            </a>
+          </li>
+        {% endif %}
+        
+      </ul>
+    </nav>
+  </section>
+  {% endif %}
+

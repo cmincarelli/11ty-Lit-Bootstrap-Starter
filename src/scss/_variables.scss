@@ -1,0 +1,27 @@
+
+// Override Bootstrap's default variables
+$primary: #007bff;
+$secondary: #6c757d;
+$success: #28a745;
+
+// Custom spacing
+$spacer: 1rem;
+
+// Custom breakpoints
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Custom fonts
+$font-family-base: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+// Enable/disable optional features
+$enable-rounded: true;
+$enable-shadows: true;
+$enable-gradients: false;
+$enable-transitions: true;

@@ -1,0 +1,108 @@
+---
+layout: base.njk
+title: "Blog | Your Site"
+description: "Read the latest articles, tutorials, and insights from our blog."
+keywords: "blog, articles, tutorials, insights, content"
+pagination:
+  data: collections.tutorialPosts
+  size: 6
+  alias: posts
+  reverse: true
+permalink: /blog/tutorials/{% if pagination.pageNumber > 0 %}/{{ pagination.pageNumber + 1 }}/{% endif %}
+---
+
+<!-- Blog Hero Section -->
+<section class="text-white p-5 mb-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, rgb(255, 193, 7), rgb(23, 162, 184));">
+  <!-- Subtle animated pattern overlay -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="background-image: radial-gradient(circle at 25% 25%, rgba(255,255,255,0.1) 1px, transparent 1px), radial-gradient(circle at 75% 75%, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 30px 30px; animation: float 20s ease-in-out infinite;"></div>
+  
+  <div class="container position-relative" style="padding-top: 3rem; padding-bottom: 3rem;">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h1 class="display-3 fw-bold mb-4" style="text-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+          <i class="bi bi-journal-text me-3" style="color: #ffd700;"></i>
+          Tutorials
+        </h1>
+        <p class="lead mb-5 fs-4 text-light" style="line-height: 1.7; max-width: 600px; text-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+          Explore articles, tutorials, and insights. Stay updated with the latest content and ideas.
+        </p>
+        <div class="d-flex align-items-center gap-3 flex-wrap">
+          <div class="d-flex align-items-center bg-dark bg-opacity-75 text-white rounded-pill px-4 py-2 shadow-sm">
+            <i class="bi bi-file-text me-2" style="color: #ffd700;"></i>
+            <span class="fw-semibold">{{ collections.posts.length }} Articles</span>
+          </div>
+          <div class="d-flex align-items-center bg-dark bg-opacity-75 text-white rounded-pill px-4 py-2 shadow-sm">
+            <i class="bi bi-calendar me-2" style="color: #ffd700;"></i>
+            <span class="fw-semibold">Regularly Updated</span>
+          </div>
+          <div class="d-flex align-items-center bg-dark bg-opacity-75 text-white rounded-pill px-4 py-2 shadow-sm">
+            <i class="bi bi-bookmark me-2" style="color: #ffd700;"></i>
+            <span class="fw-semibold">Quality Content</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 text-center mt-5 mt-lg-0">
+        <div class="bg-white bg-opacity-15 backdrop-filter-blur rounded-4 p-5 shadow-lg border border-white border-opacity-30" style="backdrop-filter: blur(10px);">
+          <div class="display-1 mb-3" style="filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));">📖</div>
+          <h5 class="mb-3 fw-bold">Latest Posts</h5>
+          <p class="small mb-0 text-light" style="line-height: 1.5;">
+            Fresh content and insights updated regularly
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  
+  <!-- Blog Filters -->
+  <section class="blog-filters mb-5">
+    <div class="row">
+      <div class="col-12">
+        <div class="bg-light rounded-3 p-4 text-center">
+          <h6 class="text-dark fw-semibold mb-3">
+            <i class="bi bi-funnel-fill text-primary me-2"></i>
+            Browse by Topic
+          </h6>
+          <div class="d-flex justify-content-center flex-wrap">
+            <a class="btn filter-btn" href="/blog/">All Posts</a>
+            <a class="btn filter-btn active">Tutorials</a>
+            <a class="btn filter-btn" href="/blog/news/">News</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% include "./common.njk" %}
+
+  <!-- Call to Action Section -->
+  <section class="bg-dark text-white rounded-3 p-5 text-center mb-5">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h3 class="h4 fw-bold text-light mb-2">
+          <i class="bi bi-lightbulb-fill me-2"></i>
+          Have Something to Share?
+        </h3>
+        <p class="mb-0">
+          Share your insights, experiences, and knowledge with our community.
+        </p>
+      </div>
+      <div class="col-lg-4">
+        <div class="d-flex gap-2 justify-content-lg-end justify-content-center mt-3 mt-lg-0">
+          <button class="btn btn-light text-dark fw-semibold">
+            <i class="bi bi-pencil-fill me-2"></i>
+            Write a Post
+          </button>
+          <button class="btn btn-outline-light">
+            <i class="bi bi-chat-dots-fill me-2"></i>
+            Get in Touch
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

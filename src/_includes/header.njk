@@ -1,0 +1,101 @@
+<header class="bg-dark text-white shadow-lg">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-transparent py-3">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center fs-3 fw-bold" href="/">
+        <i class="bi bi-cup-hot-fill text-warning me-3 fs-2"></i>
+        <span class="text-warning">Roast</span><span class="text-white">&</span><span class="text-info">Code</span>
+      </a>
+      
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-4">
+          <li class="nav-item">
+            <a class="nav-link text-white-50 fw-medium px-3" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white-50 fw-medium px-3" href="/blog">Blog</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-white-50 fw-medium px-3" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Menu
+            </a>
+            <ul class="dropdown-menu bg-dark border-warning">
+              <li><a class="dropdown-item text-white-50" href="#espresso">Espresso</a></li>
+              <li><a class="dropdown-item text-white-50" href="#coldBrew">Cold Brew</a></li>
+              <li><a class="dropdown-item text-white-50" href="#pastries">Pastries</a></li>
+              <li><hr class="dropdown-divider border-warning opacity-25"></li>
+              <li><a class="dropdown-item text-warning" href="#specialty">Specialty Drinks</a></li>
+            </ul>
+          </li>
+        </ul>
+        
+        <div class="d-flex align-items-center">
+          <button class="btn btn-outline-warning me-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Find your nearest location">
+            <i class="bi bi-geo-alt-fill me-2"></i>Locations
+          </button>
+          <button class="btn btn-outline-info me-3 position-relative" 
+                  onclick="document.dispatchEvent(new CustomEvent('open-cart'))"
+                  data-bs-toggle="tooltip" data-bs-placement="bottom" title="View your cart">
+            <i class="bi bi-cart-fill"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" 
+                  id="cart-badge" style="display: none;">
+              0
+            </span>
+          </button>
+          <button class="btn btn-warning text-dark fw-semibold" data-bs-toggle="modal" data-bs-target="#loyaltyModal">
+            <i class="bi bi-star-fill me-2"></i>Rewards
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <div class="container-fluid py-5" style="background: linear-gradient(135deg, rgba(255,193,7,0.1) 0%, rgba(23,162,184,0.1) 100%);">
+    <div class="container text-center">
+      <h1 class="display-4 fw-bold mb-3">
+        Fuel Your Code with Premium Coffee
+      </h1>
+      <p class="lead text-white-75 mb-4 mx-auto" style="max-width: 600px;">
+        Where developers gather to debug over espresso and deploy over lattes. 
+        Free WiFi, unlimited refills on inspiration.
+      </p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <button class="btn btn-warning btn-lg text-dark fw-semibold">
+          <i class="bi bi-cup-straw me-2"></i>Order Online
+        </button>
+        <button class="btn btn-outline-light btn-lg">
+          <i class="bi bi-clock me-2"></i>Store Hours
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Loyalty Modal -->
+<div class="modal fade" id="loyaltyModal" tabindex="-1" aria-labelledby="loyaltyModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content bg-dark text-white border-warning">
+      <div class="modal-header border-warning">
+        <h5 class="modal-title text-warning" id="loyaltyModalLabel">
+          <i class="bi bi-star-fill me-2"></i>Loyalty Rewards
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <div class="mb-4">
+          <i class="bi bi-award text-warning display-4"></i>
+        </div>
+        <h6 class="text-warning mb-3">Track your coffee journey!</h6>
+        <p class="text-white-75">Sign up for our loyalty program and earn points with every purchase. Get a free drink after 10 visits!</p>
+        <div class="d-grid gap-2">
+          <button class="btn btn-warning text-dark fw-semibold">Join Rewards Program</button>
+          <button class="btn btn-outline-warning">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

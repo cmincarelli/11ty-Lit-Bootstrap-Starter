@@ -1,0 +1,46 @@
+{
+  "name": "11ty-clone-starter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run build:widgets:dev && npm run build:css && sleep 1 && concurrently \"npm run dev:widgets\" \"npm run dev:css\" \"npm run dev:11ty\"",
+    "dev:widgets": "vite build --config vite.dev.config.js --watch",
+    "dev:11ty": "nodemon --watch _build/js --exec \"eleventy --serve\"",
+    "dev:css": "sass src/scss:_site/css --watch --load-path=node_modules --quiet-deps",
+    "build": "npm run build:widgets:prod && npm run build:css:prod && eleventy",
+    "build:css": "sass src/scss:_site/css --load-path=node_modules --quiet-deps",
+    "build:css:prod": "sass src/scss:_site/css --style=compressed --no-source-map --load-path=node_modules --quiet-deps",
+    "build:widgets:dev": "vite build --config vite.dev.config.js",
+    "build:widgets:prod": "vite build --config vite.prod.config.js",
+    "preview": "npm run build && serve _site -p 4000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy-img": "^6.0.4",
+    "@11ty/eleventy-plugin-bundle": "^3.0.6",
+    "@11ty/eleventy-plugin-rss": "^2.0.4",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
+    "@quasibit/eleventy-plugin-schema": "^1.11.1",
+    "@quasibit/eleventy-plugin-sitemap": "^2.2.0",
+    "bootstrap": "^5.3.7",
+    "bootstrap-icons": "^1.13.1",
+    "concurrently": "^8.2.0",
+    "eleventy-plugin-seo": "^0.5.2",
+    "eleventy-plugin-youtube-embed": "^1.13.0",
+    "lit": "^3.0.0",
+    "luxon": "^3.7.1",
+    "markdown-it": "^14.1.0",
+    "nodemon": "^3.1.10",
+    "sass": "^1.90.0",
+    "serve": "^14.2.4",
+    "terser": "^5.19.0",
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "@11ty/eleventy-navigation": "^1.0.4"
+  }
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "head.njk" %}
+
+<body>
+  {% include "header.njk" %}
+  <div class="container">
+    {{ content | safe }}
+  </div>
+  {% include "footer.njk" %}
+  
+  <!-- Shopping Cart Component -->
+  <shopping-cart></shopping-cart>
+  
+  <script type="module" src="/js/main.js"></script>
+  <script type="module" src="/js/widgets.js"></script>
+  
+  {% getBundle "js", "footer" %}
+</body>
+</html>

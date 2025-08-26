@@ -1,0 +1,19 @@
+{
+  "title": "Roast & Code - Premium Coffee for Developers",
+  "description": "Roast & Code is San Francisco's premier coffee shop designed specifically for developers and tech professionals. We serve expertly crafted single-origin espresso, specialty drinks named after programming concepts, and provide the perfect coding environment with high-speed WiFi, 4K monitors, quiet zones, and power outlets at every seat. Join our community for JavaScript study groups, Python workshops, hackathons, and tech meetups. Whether you're debugging late into the night with our signature 'Debugger' espresso or deploying code with our smooth 'Deployment' cold brew, we fuel your creativity with premium coffee and a developer-friendly atmosphere. Open daily in the heart of San Francisco's Tech District.",
+  "url": "https://roastandcode.com",
+  "author": "Roast & Code Team",
+  "twitter": "roastandcode",
+  "facebook": "roastandcode",
+  "instagram": "roastandcode",
+  "image": "https://roastandcode.com/assets/images/roast-and-code-hero.jpg",
+  "keywords": ["coffee shop", "developers", "programming", "coding workspace", "tech meetups", "san francisco", "espresso", "wifi", "quiet workspace", "developer community"],
+  "type": "LocalBusiness",
+  "category": "Coffee Shop",
+  "location": {
+    "name": "Roast & Code",
+    "address": "123 Silicon Brew Ave, Tech District, San Francisco, CA 94107",
+    "phone": "+1 (555) JAVA-123",
+    "email": "hello@roastandcode.com"
+  }
+}

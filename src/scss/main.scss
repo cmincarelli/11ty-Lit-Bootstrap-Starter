@@ -1,0 +1,17 @@
+@use "variables" as vars;
+
+@use "bootstrap/scss/bootstrap" with (
+  $primary: vars.$primary,
+  $secondary: vars.$secondary,
+  $success: vars.$success,
+  $font-family-base: vars.$font-family-base,
+  $enable-rounded: vars.$enable-rounded,
+  $enable-shadows: vars.$enable-shadows
+  // Add other variable overrides here
+);
+
+@use "bootstrap-icons/font/bootstrap-icons";
+@use "custom";
+
+
+
