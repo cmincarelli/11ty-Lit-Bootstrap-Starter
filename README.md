@@ -1,4 +1,4 @@
-# 11ty Clone Starter
+# 11ty Lit Bootstrap Starter
 
 A modern, production-ready web starter template built with **Eleventy (11ty)**, **Bootstrap 5**, **Lit web components**, and **Vite**. This template provides a solid foundation for building fast, interactive websites with modern tooling and best practices.
 
