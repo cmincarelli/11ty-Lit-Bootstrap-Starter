@@ -1,0 +1,60 @@
+[
+  {
+    "sku": "101",
+    "type": "simple",
+    "name": "Premium Coffee Beans",
+    "images": ["https://placehold.co/300x300/6f4e37/ffffff?text=Coffee+Beans"],
+    "description": "Artisan-roasted coffee beans sourced from Colombian highlands. Perfect for morning brewing.",
+    "price": 24.99,
+    "rating": 4.8,
+    "category": ["coffee", "premium"]
+  },
+  {
+    "sku": "102",
+    "type": "simple",
+    "name": "Ceramic Mug Set",
+    "images": ["https://placehold.co/300x300/8b4513/ffffff?text=Ceramic+Mugs"],
+    "description": "Handcrafted ceramic mugs with ergonomic design. Set of 2 mugs perfect for coffee lovers.",
+    "price": 18.50,
+    "rating": 4.6,
+    "category": ["accessories", "ceramic"]
+  },
+  {
+    "sku": "201",
+    "type": "complex",
+    "name": "Code Life T-Shirt",
+    "images": [
+      "https://placehold.co/300/007bff/ffffff?text=Code+Life+Front",
+      "https://placehold.co/300/28a745/ffffff?text=Code+Life+Back",
+      "https://placehold.co/300/ffc107/000000?text=Code+Life+Side",
+      "https://placehold.co/300/dc3545/ffffff?text=Code+Life+Detail"
+    ],
+    "description": "Premium cotton t-shirt for developers who live and breathe code. Comfortable fit with a modern design that speaks to your passion for programming.",
+    "price": 24.99,
+    "rating": 4.9,
+    "category": ["apparel", "developer"],
+    "attributes": {
+      "size": { "name": "Size", "options": ["S", "M", "L", "XL", "2XL"], "default": "S" },
+      "color": { "name": "Color", "options": ["Black", "White", "Blue", "Orange", "Yellow"], "default": "Black" }
+    }
+  },
+  {
+    "sku": "202",
+    "type": "complex",
+    "name": "Debug Master T-Shirt",
+    "images": [
+      "https://placehold.co/300/6f42c1/ffffff?text=Debug+Master+Front",
+      "https://placehold.co/300/e83e8c/ffffff?text=Debug+Master+Back",
+      "https://placehold.co/300/fd7e14/ffffff?text=Debug+Master+Side",
+      "https://placehold.co/300/20c997/ffffff?text=Debug+Master+Detail"
+    ],
+    "description": "Show your debugging prowess with this stylish tee. Made from soft, breathable fabric perfect for those long coding sessions and late-night bug hunts.",
+    "price": 26.99,
+    "rating": 4.7,
+    "category": ["apparel", "developer"],
+    "attributes": {
+      "size": { "options": ["S", "M", "L", "XL", "2XL"], "default": "S" },
+      "color": { "options": ["Black", "White", "Blue", "Orange", "Yellow"], "default": "Black" }
+    }
+  }
+]

@@ -12,6 +12,11 @@
   <!-- Shopping Cart Component -->
   <shopping-cart></shopping-cart>
   
+  <!-- Inject checkout configuration for shopping cart access -->
+  <script>
+    window.checkoutConfig = {{ checkout | dump | safe }};
+  </script>
+  
   <script type="module" src="/js/main.js"></script>
   <script type="module" src="/js/widgets.js"></script>
   

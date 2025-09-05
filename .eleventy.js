@@ -6,7 +6,7 @@ const pluginShortcodes = require("./src/_config/shortcodes.js");
 
 const site = require("./src/_data/site.js");
 
-module.exports = function (eleventyConfig) {
+module.exports = async function (eleventyConfig) {
 
     function excerpt(content) {
         const excerpt = content.split('<!--more-->')[0];
@@ -117,6 +117,15 @@ module.exports = function (eleventyConfig) {
     });
     eleventyConfig.addShortcode("shoppingCart", () => {
         return `<shopping-cart></shopping-cart>`;
+    });
+
+    // Product display widgets
+    eleventyConfig.addShortcode("simpleProduct", (productJson) => {
+        return `<simple-product product='${JSON.stringify(productJson)}'></simple-product>`;
+    });
+
+    eleventyConfig.addShortcode("complexProduct", (productJson) => {
+        return `<complex-product product='${JSON.stringify(productJson)}'></complex-product>`;
     });
 
     // Shortcodes

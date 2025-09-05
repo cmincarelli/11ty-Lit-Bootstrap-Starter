@@ -3,3 +3,5 @@ import './coffee-menu.js';
 import './loyalty-widget.js';
 import './store-locator.js';
 import './shopping-cart.js';
+import './simple-product.js';
+import './complex-product.js';

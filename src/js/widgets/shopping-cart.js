@@ -155,6 +155,22 @@ class ShoppingCart extends LitElement {
       font-size: 0.9rem;
     }
     
+    .badge {
+      background: rgba(255,193,7,0.2);
+      color: #ffc107;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-right: 0.5rem;
+    }
+    
+    .item-type {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.8rem;
+      font-style: italic;
+    }
+    
     .remove-btn {
       background: transparent;
       border: 1px solid #dc3545;
@@ -314,8 +330,32 @@ class ShoppingCart extends LitElement {
     this.storageKey = 'roastcode_cart';
     this.showSuccess = false;
     
+    // Load checkout configuration with defaults
+    this.checkoutConfig = this.getCheckoutConfig();
+    
     this.loadCartFromStorage();
     this.setupEventListeners();
+  }
+
+  getCheckoutConfig() {
+    // Try to get config from window global (injected by Eleventy)
+    if (window.checkoutConfig) {
+      return window.checkoutConfig;
+    }
+    
+    // Fallback to default configuration
+    return {
+      tax: {
+        rate: 0.0875,
+        percentage: 8.75,
+        label: "Tax",
+        enabled: true
+      },
+      currency: {
+        symbol: "$",
+        decimals: 2
+      }
+    };
   }
 
   setupEventListeners() {
@@ -377,42 +417,100 @@ class ShoppingCart extends LitElement {
     this.itemCount = this.items.reduce((sum, item) => sum + item.quantity, 0);
   }
 
+  // Helper method to generate unique item keys that include all attributes
+  getItemKey(item) {
+    if (item.attributes) {
+      const attributesStr = Object.entries(item.attributes)
+        .sort(([a], [b]) => a.localeCompare(b)) // Sort for consistent keys
+        .map(([key, value]) => `${key}:${value}`)
+        .join('|');
+      return `${item.id}_${attributesStr}`;
+    }
+    // Fallback for legacy items with size property
+    return `${item.id}_${item.size || 'nosize'}`;
+  }
+
+  // Helper method to find item by key
+  findItemByKey(itemKey) {
+    return this.items.find(item => this.getItemKey(item) === itemKey);
+  }
+
+  // Helper method to find item index by key
+  findItemIndexByKey(itemKey) {
+    return this.items.findIndex(item => this.getItemKey(item) === itemKey);
+  }
+
   addItem(newItem) {
-    const existingItemIndex = this.items.findIndex(item => item.id === newItem.id);
+    const itemKey = this.getItemKey(newItem);
+    const existingItemIndex = this.findItemIndexByKey(itemKey);
     
     if (existingItemIndex >= 0) {
-      this.items[existingItemIndex].quantity += 1;
+      // Item with same id AND size exists, increment quantity
+      this.items[existingItemIndex].quantity += (newItem.quantity || 1);
     } else {
-      this.items.push({
+      // New item (different id OR different size), add as new entry
+      const cartItem = {
         id: newItem.id,
         name: newItem.name,
         price: newItem.price,
-        quantity: 1,
+        quantity: newItem.quantity || 1,
         category: newItem.category || 'coffee'
-      });
+      };
+
+      // Preserve additional properties if they exist
+      if (newItem.attributes) cartItem.attributes = newItem.attributes;
+      if (newItem.size) cartItem.size = newItem.size; // Legacy support
+      if (newItem.type) cartItem.type = newItem.type;
+      if (newItem.description) cartItem.description = newItem.description;
+      if (newItem.rating) cartItem.rating = newItem.rating;
+
+      this.items.push(cartItem);
     }
     
     this.calculateTotals();
     this.saveCartToStorage();
-    this.showSuccessMessage(`${newItem.name} added to cart!`);
+    
+    // Enhanced success message that includes attributes if available
+    let attributesText = '';
+    if (newItem.attributes) {
+      const attrPairs = Object.entries(newItem.attributes)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(', ');
+      attributesText = ` (${attrPairs})`;
+    } else if (newItem.size) {
+      attributesText = ` (Size: ${newItem.size})`;
+    }
+    this.showSuccessMessage(`${newItem.name}${attributesText} added to cart!`);
+    
     this.requestUpdate();
     this.openCart();
   }
 
-  removeItem(itemId) {
-    this.items = this.items.filter(item => item.id !== itemId);
-    this.calculateTotals();
-    this.saveCartToStorage();
-    this.requestUpdate();
+  removeItem(itemKey) {
+    // Support both old itemId format and new itemKey format for backward compatibility
+    const indexToRemove = itemKey.includes('_') 
+      ? this.findItemIndexByKey(itemKey)
+      : this.items.findIndex(item => item.id == itemKey);
+      
+    if (indexToRemove >= 0) {
+      this.items.splice(indexToRemove, 1);
+      this.calculateTotals();
+      this.saveCartToStorage();
+      this.requestUpdate();
+    }
   }
 
-  updateQuantity(itemId, newQuantity) {
+  updateQuantity(itemKey, newQuantity) {
     if (newQuantity <= 0) {
-      this.removeItem(itemId);
+      this.removeItem(itemKey);
       return;
     }
 
-    const itemIndex = this.items.findIndex(item => item.id === itemId);
+    // Support both old itemId format and new itemKey format for backward compatibility
+    const itemIndex = itemKey.includes('_') 
+      ? this.findItemIndexByKey(itemKey)
+      : this.items.findIndex(item => item.id == itemKey);
+      
     if (itemIndex >= 0) {
       this.items[itemIndex].quantity = newQuantity;
       this.calculateTotals();
@@ -451,16 +549,14 @@ class ShoppingCart extends LitElement {
     }
   }
 
-  checkout() {
+  proceedToCheckout() {
     if (this.items.length === 0) return;
     
-    this.showSuccessMessage(`Order placed! Total: $${this.total.toFixed(2)}`);
+    // Save cart data for checkout page
+    this.saveCartToStorage();
     
-    // Simulate order processing
-    setTimeout(() => {
-      this.clearCart();
-      this.closeCart();
-    }, 2000);
+    // Navigate to checkout page
+    window.location.href = '/checkout/';
   }
 
   showSuccessMessage(message) {
@@ -475,7 +571,12 @@ class ShoppingCart extends LitElement {
       return html`<div style="display: none;"></div>`;
     }
 
-    const tax = this.total * 0.0875; // 8.75% tax
+    // Refresh configuration in case it wasn't available during constructor
+    this.checkoutConfig = this.getCheckoutConfig();
+
+    const tax = (this.checkoutConfig.tax.enabled && this.checkoutConfig.tax.percentage > 0) 
+      ? this.total * this.checkoutConfig.tax.rate 
+      : 0;
     const finalTotal = this.total + tax;
 
     return html`
@@ -509,38 +610,49 @@ class ShoppingCart extends LitElement {
             </div>
           ` : html`
             <div class="cart-items">
-              ${this.items.map(item => html`
-                <div class="cart-item">
-                  <div class="item-header">
-                    <div class="item-info">
-                      <h4>${item.name}</h4>
-                      <div class="item-price">$${item.price.toFixed(2)} each</div>
+              ${this.items.map(item => {
+                const itemKey = this.getItemKey(item);
+                return html`
+                  <div class="cart-item">
+                    <div class="item-header">
+                      <div class="item-info">
+                        <h4>
+                          ${item.name}
+                        </h4>
+                        <div>
+                          ${item.attributes ? Object.entries(item.attributes).map(([key, value]) => 
+                            html`<span class="${key}-badge badge">${key}: ${value}</span>`
+                          ) : ''}
+                        </div>
+                        <div class="item-price">$${item.price.toFixed(2)} each</div>
+                        ${item.type ? html`<div class="item-type">${item.type}</div>` : ''}
+                      </div>
+                      <button class="remove-btn" @click=${() => this.removeItem(itemKey)}>
+                        Remove
+                      </button>
                     </div>
-                    <button class="remove-btn" @click=${() => this.removeItem(item.id)}>
-                      Remove
-                    </button>
+                    
+                    <div class="quantity-controls">
+                      <button 
+                        class="quantity-btn" 
+                        ?disabled=${item.quantity <= 1}
+                        @click=${() => this.updateQuantity(itemKey, item.quantity - 1)}>
+                        -
+                      </button>
+                      <div class="quantity-display">${item.quantity}</div>
+                      <button 
+                        class="quantity-btn"
+                        @click=${() => this.updateQuantity(itemKey, item.quantity + 1)}>
+                        +
+                      </button>
+                    </div>
+                    
+                    <div class="item-subtotal">
+                      Subtotal: $${(item.price * item.quantity).toFixed(2)}
+                    </div>
                   </div>
-                  
-                  <div class="quantity-controls">
-                    <button 
-                      class="quantity-btn" 
-                      ?disabled=${item.quantity <= 1}
-                      @click=${() => this.updateQuantity(item.id, item.quantity - 1)}>
-                      −
-                    </button>
-                    <div class="quantity-display">${item.quantity}</div>
-                    <button 
-                      class="quantity-btn"
-                      @click=${() => this.updateQuantity(item.id, item.quantity + 1)}>
-                      +
-                    </button>
-                  </div>
-                  
-                  <div class="item-subtotal">
-                    Subtotal: $${(item.price * item.quantity).toFixed(2)}
-                  </div>
-                </div>
-              `)}
+                `;
+              })}
             </div>
           `}
         </div>
@@ -550,22 +662,24 @@ class ShoppingCart extends LitElement {
             <div class="cart-summary">
               <div class="summary-row">
                 <span>Subtotal:</span>
-                <span>$${this.total.toFixed(2)}</span>
+                <span>${this.checkoutConfig.currency.symbol}${this.total.toFixed(this.checkoutConfig.currency.decimals)}</span>
               </div>
-              <div class="summary-row">
-                <span>Tax (8.75%):</span>
-                <span>$${tax.toFixed(2)}</span>
-              </div>
+              ${(this.checkoutConfig.tax.enabled && this.checkoutConfig.tax.percentage > 0) ? html`
+                <div class="summary-row">
+                  <span>${this.checkoutConfig.tax.label} (${this.checkoutConfig.tax.percentage}%):</span>
+                  <span>${this.checkoutConfig.currency.symbol}${tax.toFixed(this.checkoutConfig.currency.decimals)}</span>
+                </div>
+              ` : ''}
               <div class="summary-row total">
                 <span>Total:</span>
-                <span>$${finalTotal.toFixed(2)}</span>
+                <span>${this.checkoutConfig.currency.symbol}${finalTotal.toFixed(this.checkoutConfig.currency.decimals)}</span>
               </div>
             </div>
             
             <div class="cart-actions">
-              <button class="action-btn checkout-btn" @click=${this.checkout}>
+              <button class="action-btn checkout-btn" @click=${this.proceedToCheckout}>
                 <i class="bi bi-credit-card me-2"></i>
-                Place Order
+                Proceed to Checkout
               </button>
               <button class="action-btn clear-btn" @click=${this.clearCart}>
                 <i class="bi bi-trash me-2"></i>

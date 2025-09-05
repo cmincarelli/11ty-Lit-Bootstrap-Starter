@@ -1,9 +1,3 @@
-const {
-  IdAttributePlugin,
-  InputPathToUrlTransformPlugin,
-  HtmlBasePlugin,
-} = require('@11ty/eleventy');
-
 const { eleventyImageTransformPlugin } = require("@11ty/eleventy-img");
 const { feedPlugin } = require("@11ty/eleventy-plugin-rss");
 
@@ -17,7 +11,12 @@ const youtubeEmbed = require("eleventy-plugin-youtube-embed");
 const site = require("../_data/site.js");
 const seo = require("../_data/seo.json");
 
-module.exports = function (eleventyConfig) {
+module.exports = async function (eleventyConfig) {
+    const {
+        IdAttributePlugin,
+        InputPathToUrlTransformPlugin,
+        HtmlBasePlugin,
+    } = await import('@11ty/eleventy');
     // Plugins
     eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
@@ -40,6 +39,7 @@ module.exports = function (eleventyConfig) {
             loading: "lazy",
             decoding: "async",
         },
+
         outputDir: "_site/img/",
         urlPath: "/img/"
     });
